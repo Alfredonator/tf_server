@@ -83,47 +83,47 @@ class ObjectDetector:
 
         return image_np_with_detections
 
-
-"""
-#################################################################################
-"""
-
-def main():
-    detector = ObjectDetector()
-
-    # cap = cv2.VideoCapture(0)
-    frame_counter = 0
-
-    while True:
-
-        # Read frame from camera
-        # ret, image_np = cap.read()
-
-        image_np = cv2.imread('/home/szymon/catkin_ws/src/camera_node_v3/src/test2.jpg')
-
-        if frame_counter == 0 or frame_counter % 10 == 0:  # capture every 10th frame to lower fps (GPU constraint)
-
-            detections = detector.get_formatted_detections(image_np)
-
-            image_np_with_detections = detector.visualize_detections(image_np, detections)
-
-            frame_counter = 1
-
-            # Display output
-            cv2.imshow('object detection', image_np_with_detections)
-
-            if cv2.waitKey(25) & 0xFF == ord('q'):
-                break
-
-        else:
-            frame_counter += 1
-            continue
-
-    # cap.release()
-    cv2.destroyAllWindows()
-
-
-if __name__ == '__main__':
-    main()
-
-
+#
+# """
+# #################################################################################
+# """
+#
+# def main():
+#     detector = ObjectDetector()
+#
+#     # cap = cv2.VideoCapture(0)
+#     frame_counter = 0
+#
+#     while True:
+#
+#         # Read frame from camera
+#         # ret, image_np = cap.read()
+#
+#         image_np = cv2.imread('/home/szymon/catkin_ws/src/camera_node_v3/src/test2.jpg')
+#
+#         if frame_counter == 0 or frame_counter % 10 == 0:  # capture every 10th frame to lower fps (GPU constraint)
+#
+#             detections = detector.get_formatted_detections(image_np)
+#
+#             image_np_with_detections = detector.visualize_detections(image_np, detections)
+#
+#             frame_counter = 1
+#
+#             # Display output
+#             cv2.imshow('object detection', image_np_with_detections)
+#
+#             if cv2.waitKey(25) & 0xFF == ord('q'):
+#                 break
+#
+#         else:
+#             frame_counter += 1
+#             continue
+#
+#     # cap.release()
+#     cv2.destroyAllWindows()
+#
+#
+# if __name__ == '__main__':
+#     main()
+#
+#

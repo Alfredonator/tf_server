@@ -49,7 +49,8 @@ class ArucoDetector:
          aruco_right_bottom_left) = aruco_right_square.reshape((4, 2))
         return self._calculate_box_center(aruco_left_bottom_right, aruco_right_top_left, frame)
 
-    def _calculate_box_center(self, left_upper_corner, right_bottom_corner, frame):
+    @staticmethod
+    def _calculate_box_center(left_upper_corner, right_bottom_corner, frame):
         x, y = int((left_upper_corner[0] + right_bottom_corner[0]) / 2), int(
             (left_upper_corner[1] + right_bottom_corner[1]) / 2)
         cv2.circle(frame, (x, y), 4, (0, 0, 255), -1)
