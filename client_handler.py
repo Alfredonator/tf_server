@@ -44,12 +44,13 @@ class ClientHandler:
         self._udp_server_socket.sendto(json_objects_dict, self._client_address_port)
 
     def receive_color_frame(self):
-        image_buffer = cv2.imdecode(self._receive_frame(), flags=cv2.IMREAD_ANYDEPTH)
+        image_buffer = cv2.imdecode(self._receive_frame(), flags=1)
 
         return image_buffer
 
+
     def receive_depth_frame(self):
-        image_buffer = cv2.imdecode(self._receive_frame(), flags=1)
+        image_buffer = cv2.imdecode(self._receive_frame(), flags=cv2.IMREAD_ANYDEPTH)
 
         return image_buffer
 

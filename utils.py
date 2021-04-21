@@ -9,7 +9,7 @@ class Utils:
     def _project_pixels_to_phys_coord(x_pixel, y_pixel, depth, camera_info):
         # converting to right unit (0.001 m)
         depth = depth / 1000
-        intrinsics = Intrinsics(camera_info.K[2], camera_info.K[5], camera_info.K[0], camera_info.K[4])
+        intrinsics = Intrinsics(camera_info['K']['2'], camera_info['K']['5'], camera_info['K']['0'], camera_info['K']['4'])
 
         x_coordinate = depth * ((x_pixel - intrinsics.ppx) / intrinsics.fx)
         y_coordinate = depth * ((y_pixel - intrinsics.ppy) / intrinsics.fy)
@@ -25,8 +25,8 @@ class Utils:
 
         # camera_info shows info about RGB stream which has higher resolution than depth,
         # thus resolution has to be explicitly set to 640 x 480
-        # camera_resolution_height = camera_info.height
-        # camera_resolution_width = camera_info.width
+        # camera_resolution_height = camera_info['height']
+        # camera_resolution_width = camera_info['width']
 
         camera_resolution_height = 480
         camera_resolution_width = 640

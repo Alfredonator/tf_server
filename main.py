@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import time
 
 import cv2
 from aruco_detector import ArucoDetector
@@ -13,28 +14,39 @@ def main_client():
     object_detector = ObjectDetector()
     box_detector = ArucoDetector()
 
+    image_np = cv2.imread('/home/szymon/catkin_ws/src/camera_node_v3/src/test2.jpg')
+    temp_detections = object_detector.get_formatted_detections(image_np)
+
     try:
         while True:
             color_frame = client_handler.receive_color_frame()
+            print('-------------------------------  color')
+            # cv2.imshow("color", color_frame)
+            print(color_frame)
             depth_frame = client_handler.receive_depth_frame()
+            print('-------------------------------  depth')
+            # cv2.imshow("depth", depth_frame)
+            print(depth_frame)
             camera_info = client_handler.receive_camera_info()
+            print(camera_info)
 
-            # get object and box detections
-            object_detections = object_detector.get_formatted_detections(color_frame)
-            box_detections = box_detector.get_detected_boxes(color_frame)
 
-            # visualize detections
-            image_with_detections = object_detector.visualize_detections(color_frame, object_detections)
-            cv2.imshow('object detection', image_with_detections)
-            cv2.waitKey(3)
+            # # get object and box detections
+            # object_detections = object_detector.get_formatted_detections(color_frame)
+            # box_detections = box_detector.get_detected_boxes(color_frame)
+            #
+            # # visualize detections
+            # image_with_detections = object_detector.visualize_detections(color_frame, object_detections)
+            # cv2.imshow('object detection', image_with_detections)
+            # cv2.waitKey(3)
 
-            # get 3D objects and 3D boxes list
-            objects_3d_list = Utils.get_objects_3d_coordinates(object_detections, depth_frame, camera_info)
-            box_3d_list = Utils.get_boxes_3d_coordinates(box_detections, depth_frame, camera_info)
-
-            # add all 3D objects and all 3D boxes back to camera_node
-            client_handler.send_detected_objects_array(objects_3d_list)
-            client_handler.send_detected_boxes_array(box_3d_list)
+            # # get 3D objects and 3D boxes list
+            # objects_3d_list = Utils.get_objects_3d_coordinates(object_detections, depth_frame, camera_info)
+            # box_3d_list = Utils.get_boxes_3d_coordinates(box_detections, depth_frame, camera_info)
+            #
+            # # add all 3D objects and all 3D boxes back to camera_node
+            # client_handler.send_detected_objects_array(objects_3d_list)
+            # client_handler.send_detected_boxes_array(box_3d_list)
 
     except KeyboardInterrupt:
         print("Shutting down")
