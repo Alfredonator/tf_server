@@ -2,7 +2,6 @@
 
 import os
 import tensorflow as tf
-import cv2
 import numpy as np
 from object_detection.utils import label_map_util
 from object_detection.utils import config_util
@@ -59,10 +58,14 @@ class ObjectDetector:
         class_name = self.category_index[class_id]['name']
         return class_name
 
-    @staticmethod
-    def format_detections(detections):
+    def format_detections(self, detections):
+        translated_detection_classes = []
+
+        for detection_class in (detections['detection_classes'][0].numpy() + 1).astype(int):
+            translated_detection_classes.append(self.get_name_of_detected_class(detection_class))
+
         formatted_detections = {'detection_boxes': detections['detection_boxes'][0].numpy(),
-                                'detection_classes': (detections['detection_classes'][0].numpy() + 1).astype(int),
+                                'detection_classes': translated_detection_classes,
                                 'detection_scores': detections['detection_scores'][0].numpy()}
 
         return formatted_detections
@@ -82,48 +85,3 @@ class ObjectDetector:
             agnostic_mode=False)
 
         return image_np_with_detections
-
-#
-# """
-# #################################################################################
-# """
-#
-# def main():
-#     detector = ObjectDetector()
-#
-#     # cap = cv2.VideoCapture(0)
-#     frame_counter = 0
-#
-#     while True:
-#
-#         # Read frame from camera
-#         # ret, image_np = cap.read()
-#
-#         image_np = cv2.imread('/home/szymon/catkin_ws/src/camera_node_v3/src/test2.jpg')
-#
-#         if frame_counter == 0 or frame_counter % 10 == 0:  # capture every 10th frame to lower fps (GPU constraint)
-#
-#             detections = detector.get_formatted_detections(image_np)
-#
-#             image_np_with_detections = detector.visualize_detections(image_np, detections)
-#
-#             frame_counter = 1
-#
-#             # Display output
-#             cv2.imshow('object detection', image_np_with_detections)
-#
-#             if cv2.waitKey(25) & 0xFF == ord('q'):
-#                 break
-#
-#         else:
-#             frame_counter += 1
-#             continue
-#
-#     # cap.release()
-#     cv2.destroyAllWindows()
-#
-#
-# if __name__ == '__main__':
-#     main()
-#
-#
