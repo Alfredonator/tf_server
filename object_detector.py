@@ -10,9 +10,10 @@ from object_detection.builders import model_builder
 
 
 class ObjectDetector:
-    PATH_TO_CKPT = "object_detection_models/ssd_resnet50/checkpoint/ckpt-0"
-    PATH_TO_CFG = "object_detection_models/ssd_resnet50/pipeline.config"
-    PATH_TO_LABELS = "object_detection/data/mscoco_label_map.pbtxt"
+    MODEL_NAME = "Vegiesv7adam"
+    PATH_TO_CKPT = "object_detection_models/" + MODEL_NAME + "/checkpoint/ckpt-0"
+    PATH_TO_CFG = "object_detection_models/" + MODEL_NAME + "/pipeline.config"
+    PATH_TO_LABELS = "object_detection_models/" + MODEL_NAME + "/Vegies_label_map.pbtxt"
 
     def __init__(self):
         os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # Suppress TensorFlow logging (1)

@@ -1,27 +1,13 @@
-import json
 import socket
 import cv2
-import numpy as np
+
+from communication_utils import CommunicationUtils
 from object_detector import ObjectDetector
-
-
-class CommunicationUtils:
-    @staticmethod
-    def decode(received):
-        color_buffer = np.frombuffer(received, dtype=np.uint8)
-        color_np = cv2.imdecode(color_buffer, flags=cv2.IMREAD_ANYCOLOR)
-
-        return color_np
-
-    @staticmethod
-    def encode(objects_detections):
-
-        return json.dumps(objects_detections, indent=4).encode()
 
 
 class CommunicationHandlerServer:
     SERVER_HOST = "127.0.0.1"
-    SERVER_PORT = 5002
+    SERVER_PORT = 5001
     BUFFER_SIZE = 32768
     DETECTION_THRESHOLD = 0.2
 
@@ -53,6 +39,11 @@ class CommunicationHandlerServer:
                     color_frame = CommunicationUtils.decode(received)
 
                     object_detections = self.object_detector.get_formatted_detections(color_frame)
+
+                    # image_with_detections = self.object_detector.visualize_detections(color_frame, object_detections)
+                    # cv2.imshow('object detection', image_with_detections)
+                    # cv2.waitKey(0)
+
                     self._send_detections(object_detections)
 
             except Exception as ex:
@@ -92,11 +83,11 @@ class CommunicationHandlerServer:
                 detections_dict[object_detections['detection_classes'][i]] = {
                     "detection_score": str(object_detections['detection_scores'][i]),
                     "detection_box": {
-                            'x_min': str(object_detections['detection_boxes'][i][0]),
-                            'y_min': str(object_detections['detection_boxes'][i][1]),
-                            'x_max': str(object_detections['detection_boxes'][i][2]),
-                            'y_max': str(object_detections['detection_boxes'][i][3])
-                        }
+                        'x_min': str(object_detections['detection_boxes'][i][1]),
+                        'y_min': str(object_detections['detection_boxes'][i][0]),
+                        'x_max': str(object_detections['detection_boxes'][i][3]),
+                        'y_max': str(object_detections['detection_boxes'][i][2])
+                    }
                 }
 
         print(f"Detection_dict\n {detections_dict}")
