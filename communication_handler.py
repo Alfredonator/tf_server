@@ -83,10 +83,10 @@ class CommunicationHandlerServer:
                 detections_dict[object_detections['detection_classes'][i]] = {
                     "detection_score": str(object_detections['detection_scores'][i]),
                     "detection_box": {
-                        'x_min': str(object_detections['detection_boxes'][i][1]),
-                        'y_min': str(object_detections['detection_boxes'][i][0]),
-                        'x_max': str(object_detections['detection_boxes'][i][3]),
-                        'y_max': str(object_detections['detection_boxes'][i][2])
+                        'top': str(object_detections['detection_boxes'][i][0]),
+                        'left': str(object_detections['detection_boxes'][i][1]),
+                        'bottom': str(object_detections['detection_boxes'][i][2]),
+                        'right': str(object_detections['detection_boxes'][i][3])
                     }
                 }
 
